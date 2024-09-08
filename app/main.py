@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes import api_router
 from app.scheduler import scheduler
-from app import logger
 
 
 @asynccontextmanager
