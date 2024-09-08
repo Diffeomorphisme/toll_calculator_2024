@@ -1,11 +1,10 @@
 from fastapi import (
     APIRouter,
     BackgroundTasks,
-    Depends
 )
 
-from app import logger
 from app.vehicle.model import VehiclePassage
+from app.vehicle.process import process_vehicle_toll_information
 
 
 router = APIRouter(
@@ -17,7 +16,5 @@ router = APIRouter(
 async def register_vehicle_passage(
         vehicle_passage_data: VehiclePassage,
         background_tasks: BackgroundTasks,
-        # db: SessionLocal = Depends(get_db)
-) -> str:
-    return f"""Nice car {vehicle_passage_data.vehicle_number} of type {vehicle_passage_data.vehicle_type}
-    Spotted at {vehicle_passage_data.date_time}"""
+) -> None:
+    background_tasks.add_task(process_vehicle_toll_information, vehicle_passage_data)
