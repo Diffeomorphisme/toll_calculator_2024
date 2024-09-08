@@ -68,7 +68,17 @@ TOLL_FEE_BREAKDOWN = [
 ]
 
 
-class AbstractRepository(abc.ABC):
+TOLL_FEE_FREE_VEHICLES = {
+    "Motorbike",
+    "Tractor",
+    "Emergency",
+    "Diplomat",
+    "Foreign",
+    "Military"
+}
+
+
+class AbstractVehicleRepository(abc.ABC):
     @abc.abstractmethod
     def get(self, vehicle_number: str):
         raise NotImplementedError
@@ -90,13 +100,19 @@ class AbstractRepository(abc.ABC):
         raise NotImplementedError
 
 
-class AnotherAbstractRepository(abc.ABC):
+class AbstractRepositoryTollFee(abc.ABC):
     @abc.abstractmethod
     def get(self, time_of_day: datetime):
         raise NotImplementedError
 
 
-class FakeVehicleRepository(AbstractRepository):
+class AbstractRepositoryNoFeeVehicles(abc.ABC):
+    @abc.abstractmethod
+    def get(self, target_vehicle_type: str):
+        raise NotImplementedError
+
+
+class FakeVehicleRepository(AbstractVehicleRepository):
     def __init__(self, vehicles: list[VehicleActivity]):
         self._vehicles = vehicles
 
@@ -114,7 +130,7 @@ class FakeVehicleRepository(AbstractRepository):
             VehicleActivity(
                 vehicle_number=vehicle_passage_data.vehicle_number,
                 vehicle_type=vehicle_passage_data.vehicle_type,
-                vehicle_activity=[vehicle_passage_data.vehicle_activity]
+                vehicle_activity=[vehicle_passage_data.date_time]
             )
         )
 
@@ -132,7 +148,7 @@ class FakeVehicleRepository(AbstractRepository):
                 return
 
 
-class FakeTollFeeRepository(AnotherAbstractRepository, ABC):
+class FakeTollFeeRepository(AbstractRepositoryTollFee):
     def __init__(self, toll_fee_breakdown: list[dict]):
         self._toll_fee_breakdown = toll_fee_breakdown
 
@@ -149,5 +165,17 @@ class FakeTollFeeRepository(AnotherAbstractRepository, ABC):
                     return toll_fee.get("fee")
 
 
+class FakeNoFeeVehicleRepository(AbstractRepositoryNoFeeVehicles):
+    def __init__(self, toll_fee_free_vehicles: set[str]):
+        self._toll_fee_free_vehicles = toll_fee_free_vehicles
+
+    def get(self, target_vehicle_type: str) -> bool:
+        for vehicle in self._toll_fee_free_vehicles:
+            if vehicle.lower() == target_vehicle_type.lower():
+                return True
+        return False
+
+
 vehicle_repository = FakeVehicleRepository([])
 toll_fee_repository = FakeTollFeeRepository(TOLL_FEE_BREAKDOWN)
+toll_fee_free_vehicles_repository = FakeNoFeeVehicleRepository(TOLL_FEE_FREE_VEHICLES)
