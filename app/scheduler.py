@@ -21,7 +21,7 @@ class Scheduler(AsyncIOScheduler):
             hour=hour_to_run_at,
             name="run_toll_fee_calculations",
         )
-        logger.info(f"Task added: run_toll_fee_calculations")
+        logger.info("Task added: run_toll_fee_calculations")
 
 
 scheduler = Scheduler()

@@ -1,8 +1,12 @@
 import abc
-from abc import ABC
 from datetime import time, datetime
 
 from app.vehicle.model import VehiclePassage, VehicleActivity
+
+"""Both TOLL_FEE_BREAKDOWN and TOLL_FEE_FREE_VEHICLES should be stored in a
+database or another place that the code can reach (maybe through an API
+connection) but NOT directly in the code. For the sake of this exercise,
+they will be stored in the repository file."""
 
 TOLL_FEE_BREAKDOWN = [
     {
@@ -156,7 +160,7 @@ class FakeTollFeeRepository(AbstractRepositoryTollFee):
         for toll_fee in self._toll_fee_breakdown:
             start_time: time = toll_fee.get("start_time")
             end_time: time = toll_fee.get("end_time")
-            time_of_day: time = time(target_datetime.hour, target_datetime.minute)
+            time_of_day = time(target_datetime.hour, target_datetime.minute)
             if start_time <= end_time:
                 if start_time <= time_of_day <= end_time:
                     return toll_fee.get("fee")
@@ -178,4 +182,6 @@ class FakeNoFeeVehicleRepository(AbstractRepositoryNoFeeVehicles):
 
 vehicle_repository = FakeVehicleRepository([])
 toll_fee_repository = FakeTollFeeRepository(TOLL_FEE_BREAKDOWN)
-toll_fee_free_vehicles_repository = FakeNoFeeVehicleRepository(TOLL_FEE_FREE_VEHICLES)
+toll_fee_free_vehicles_repository = FakeNoFeeVehicleRepository(
+    TOLL_FEE_FREE_VEHICLES
+)

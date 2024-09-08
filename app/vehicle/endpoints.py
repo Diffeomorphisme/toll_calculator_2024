@@ -17,4 +17,6 @@ async def register_vehicle_passage(
         vehicle_passage_data: VehiclePassage,
         background_tasks: BackgroundTasks,
 ) -> None:
-    background_tasks.add_task(process_vehicle_toll_information, vehicle_passage_data)
+    background_tasks.add_task(
+        process_vehicle_toll_information, vehicle_passage_data
+    )
