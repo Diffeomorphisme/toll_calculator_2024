@@ -4,9 +4,9 @@ from datetime import time, datetime
 from app.vehicle.model import VehiclePassage, VehicleActivity
 
 """Both TOLL_FEE_BREAKDOWN and TOLL_FEE_FREE_VEHICLES should be stored in a
-database or another place that the code can reach (maybe through an API
-connection) but NOT directly in the code. For the sake of this exercise,
-they will be stored in the repository file."""
+database or another place that can be reached by the code but NOT directly in 
+the code. For the sake of this exercise, though, they will be stored in the 
+repository file."""
 
 TOLL_FEE_BREAKDOWN = [
     {
@@ -162,7 +162,7 @@ class FakeTollFeeRepository(AbstractRepositoryTollFee):
             end_time: time = toll_fee.get("end_time")
             time_of_day = time(target_datetime.hour, target_datetime.minute)
             if start_time <= end_time:
-                if start_time <= time_of_day <= end_time:
+                if start_time <= time_of_day < end_time:
                     return toll_fee.get("fee")
             else:
                 if start_time <= time_of_day or time_of_day <= end_time:

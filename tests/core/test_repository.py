@@ -43,7 +43,10 @@ class TestVehicleRepository(TestCase):
 
         self.assertIsNone(vehicle_repository.get(vehicle_number))
         vehicle_repository.add(vehicle_to_add)
-        self.assertEqual(vehicle_repository.get(vehicle_number).vehicle_number, vehicle_number)
+        self.assertEqual(
+            vehicle_repository.get(vehicle_number).vehicle_number,
+            vehicle_number
+        )
         self.assertEqual(len(vehicle_repository.get_all()), 1)
 
     # Other tests should be written for all crud operations
