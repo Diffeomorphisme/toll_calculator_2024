@@ -65,7 +65,7 @@ TOLL_FEE_BREAKDOWN = [
     },
     {
         "id": 9,
-        "start_time": time(18, 0),
+        "start_time": time(18, 30),
         "end_time": time(6, 0),
         "fee": 0
     },
