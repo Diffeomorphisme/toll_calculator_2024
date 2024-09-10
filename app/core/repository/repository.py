@@ -4,8 +4,8 @@ from datetime import time, datetime
 from app.vehicle.model import VehiclePassage, VehicleActivity
 
 """Both TOLL_FEE_BREAKDOWN and TOLL_FEE_FREE_VEHICLES should be stored in a
-database or another place that can be reached by the code but NOT directly in 
-the code. For the sake of this exercise, though, they will be stored in the 
+database or another place that can be reached by the code but NOT directly in
+the code. For the sake of this exercise, though, they will be stored in the
 repository file."""
 
 TOLL_FEE_BREAKDOWN = [

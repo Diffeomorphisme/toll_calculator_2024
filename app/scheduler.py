@@ -13,7 +13,8 @@ class Scheduler(AsyncIOScheduler):
     def add_calculator_task(self, hour_to_run_at: int = 23) -> None:
         """This is a simplified version of how the scheduling should be done.
         In practice, we should be passing the date as an argument in case the
-        running of the run_toll_fee_calculations would be delayed."""
+        running of the run_toll_fee_calculations would be delayed or run at
+        another time."""
 
         self.add_job(
             run_toll_fee_calculations,

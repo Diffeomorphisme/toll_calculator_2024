@@ -12,12 +12,20 @@ from app.toll_fee_calculator.utils import (
     check_if_date_is_weekend,
     check_if_date_is_target_date
 )
+from app.toll_fee_calculator.export import send_toll_fees_to_payment_api
 
 
+# This is stored in the code but
 MAX_FEE = 60
 
 
-def run_toll_fee_calculations() -> list[VehicleWithFee]:
+def run_toll_fee_calculations() -> None:
+    """Gather the toll fees and send them to the API dealing with payments"""
+    vehicles_with_fees = calculate_toll_fee_for_all_vehicles()
+    send_toll_fees_to_payment_api(vehicles_with_fees)
+
+
+def calculate_toll_fee_for_all_vehicles() -> list[VehicleWithFee]:
     target_date = date.today()
     vehicles_with_fees: list[VehicleWithFee] = []
     for vehicle in vehicle_repository.get_all():
@@ -36,6 +44,7 @@ def run_toll_fee_calculations() -> list[VehicleWithFee]:
 def calculate_toll_fee_for_single_vehicle(
         vehicle: VehicleActivity, target_date: date
 ) -> int:
+    """Run the toll fee calculations for a single vehicle at a given date."""
 
     if check_if_date_is_holiday(target_date):   # No fee during holidays
         return 0
@@ -55,11 +64,13 @@ def calculate_toll_fee_for_single_vehicle(
         )
     )
 
+    # The actual calculations of the toll fee for the vehicle on the target day
     total_fee = 0
     temp_fee = toll_fee_repository.get(target_vehicle_activity[0])
     start_time: datetime = target_vehicle_activity[0]
     for index, toll_passage in enumerate(target_vehicle_activity):
         if toll_passage < start_time + _datetime.timedelta(hours=1):
+            # only the biggest fee applies within an hour interval
             temp_fee = max(
                 temp_fee,
                 toll_fee_repository.get(toll_passage)
