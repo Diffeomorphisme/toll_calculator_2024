@@ -50,3 +50,9 @@ Among other things:
 
 And of course there would have been a discussion with the relevant people (PO, PM, technical teams, etc) to clarify the questions exposed in the assumptions section.
 There would also have been a whole deal of project management, with planning work, prioritising tasks, reviewing work, etc.
+
+## Running the code
+
+Runs on python 3.11
+
+run 'pip install -r requirements.txt' to install the requirements
