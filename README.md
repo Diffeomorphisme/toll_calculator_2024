@@ -55,4 +55,8 @@ There would also have been a whole deal of project management, with planning wor
 
 Runs on python 3.11
 
-run 'pip install -r requirements.txt' to install the requirements
+run `pip install -r requirements.txt` to install the requirements
+
+run `python -m app.main` from the root to start the toll fee calculator
+
+run `python -m unittest` to run the tests
